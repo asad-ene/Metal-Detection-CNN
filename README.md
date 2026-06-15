@@ -21,7 +21,7 @@ A CNN-based classifier for detecting surface defects in steel, trained on the NE
 | Learning Rate | 0.001 |
 | Batch Size | 32 |
 | Epochs | 20 |
-| Input Size | 224×224 |
+| Input Size | 128×128 |
 | Optimizer | Adam |
 | Loss Function | CrossEntropyLoss |
 | Augmentation | RandomHorizontalFlip, RandomRotation(10) |
