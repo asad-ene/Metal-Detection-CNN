@@ -85,13 +85,12 @@ LOG_FILE = 'D:/Python and ML/Metal defects/predictions_log.csv'
 if not os.path.exists(LOG_FILE):
     with open(LOG_FILE, 'w', newline='') as f:
         writer = csv.writer(f)
-        writer.writerow(['timestamp', 'image_path', 'predicted_class', 'confidence', 'status'])
+        writer.writerow([ 'image_path', 'predicted_class', 'confidence', 'status'])
 
 def log_prediction(image_path, predicted_class, confidence, status):
     with open(LOG_FILE, 'a', newline='') as f:
         writer = csv.writer(f)
         writer.writerow([
-            datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
             image_path,
             predicted_class,
             f'{confidence:.4f}',
