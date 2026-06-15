@@ -4,6 +4,10 @@ import torch.optim as optim
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
 import torchvision.models as models
+from PIL import Image
+import os
+import csv
+from datetime import datetime
 
 # transform
 train_transform = transforms.Compose([
@@ -19,7 +23,6 @@ valid_transform = transforms.Compose([
     transforms.ToTensor(),
     transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
 ])
-
 
 # dataset
 image = datasets.ImageFolder('D:/Python and ML/Metal defects/archive/NEU-DET/train/images', transform=train_transform) 
@@ -77,25 +80,51 @@ for epoch in range(20):
 
     print(f'Epoch {epoch+1}  Loss: {running_loss/len(dataloader):.4f}  Train Acc: {100*correct/total:.2f}%')
 
-from PIL import Image
+# logging setup
+LOG_FILE = 'D:/Python and ML/Metal defects/predictions_log.csv'
+if not os.path.exists(LOG_FILE):
+    with open(LOG_FILE, 'w', newline='') as f:
+        writer = csv.writer(f)
+        writer.writerow(['timestamp', 'image_path', 'predicted_class', 'confidence', 'status'])
 
-def predict_image(image_path, model, dataset):
+def log_prediction(image_path, predicted_class, confidence, status):
+    with open(LOG_FILE, 'a', newline='') as f:
+        writer = csv.writer(f)
+        writer.writerow([
+            datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+            image_path,
+            predicted_class,
+            f'{confidence:.4f}',
+            status
+        ])
+
+# predict
+def predict_image(image_path, model, dataset, threshold=0.85):
     model.eval()
     
     transform = transforms.Compose([
         transforms.Resize((128, 128)),
         transforms.ToTensor(),
-       transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+        transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
     ])
     
     img = Image.open(image_path).convert('RGB')
-    img_tensor = transform(img).unsqueeze(0)  # adds batch dimension → (1, 3, 128, 128)
+    img_tensor = transform(img).unsqueeze(0).to(device)
     
     with torch.no_grad():
         output = model(img_tensor)
-        predicted_idx = torch.argmax(output, dim=1).item()
-        predicted_class = dataset.classes[predicted_idx]
-    
-    print(f'Predicted class: {predicted_class}')
+        probs = torch.softmax(output, dim=1)
+        confidence, predicted_idx = torch.max(probs, dim=1)
+        confidence = confidence.item()
+        predicted_class = dataset.classes[predicted_idx.item()]
+
+    if confidence < threshold:
+        status = 'UNCERTAIN'
+        print(f'Uncertain prediction — flagged for human review (confidence: {confidence:.2f})')
+    else:
+        status = 'OK'
+        print(f'Predicted class: {predicted_class}  (confidence: {confidence:.2f})')
+
+    log_prediction(image_path, predicted_class, confidence, status)
 
 predict_image('D:/Python and ML/Metal defects/archive/NEU-DET/inclusion_254.jpg', model, image)
