@@ -14,6 +14,18 @@ A CNN-based classifier for detecting surface defects in steel, trained on the NE
 - **Loss:** CrossEntropyLoss
 - **Optimizer:** Adam (lr=0.001)
 
+## Hyperparameters
+
+| Parameter | Value |
+|-----------|-------|
+| Learning Rate | 0.001 |
+| Batch Size | 32 |
+| Epochs | 20 |
+| Input Size | 224×224 |
+| Optimizer | Adam |
+| Loss Function | CrossEntropyLoss |
+| Augmentation | RandomHorizontalFlip, RandomRotation(10) |
+
 ## Requirements
 
 ```bash
@@ -52,7 +64,7 @@ predict_image('path/to/image.jpg', model, dataset)
 
 | Metric | Value |
 |--------|-------|
-| Validation Accuracy | ~90%+ |
+| Validation Accuracy | 83.99% |
 
 ## Notes
 
