@@ -26,11 +26,6 @@ A CNN-based classifier for detecting surface defects in steel, trained on the NE
 | Loss Function | CrossEntropyLoss |
 | Augmentation | RandomHorizontalFlip, RandomRotation(10) |
 
-## Requirements
-
-```bash
-pip install torch torchvision scikit-learn Pillow
-```
 
 ## Folder Structure
 
