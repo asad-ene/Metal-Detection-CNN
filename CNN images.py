@@ -80,6 +80,8 @@ for epoch in range(20):
 
     print(f'Epoch {epoch+1}  Loss: {running_loss/len(dataloader):.4f}  Train Acc: {100*correct/total:.2f}%')
 
+
+
 # logging setup
 LOG_FILE = 'D:/Python and ML/Metal defects/predictions_log.csv'
 if not os.path.exists(LOG_FILE):
