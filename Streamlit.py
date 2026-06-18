@@ -1,13 +1,11 @@
 """
 Metal Defect Detection — Streamlit App
-----------------------------------------
+
 Loads a trained ResNet18 checkpoint (saved by train_model.py) and lets users
 upload one or many images to classify them into one of six NEU-DET surface
 defect categories: crazing, inclusion, patches, pitted_surface,
 rolled-in_scale, scratches.
 
-Run with:
-    streamlit run app.py
 
 Expects a checkpoint file named 'defect_model.pth' in the same folder as
 this script, saved as a dict with keys: model_state_dict, classes,
@@ -29,9 +27,6 @@ import torchvision.models as models
 from PIL import Image
 from torchvision import transforms
 
-# ---------------------------------------------------------------------------
-# Page config — must be the first Streamlit call
-# ---------------------------------------------------------------------------
 st.set_page_config(
     page_title="Metal Detection Maintenance",
     page_icon="🔩",
@@ -39,9 +34,8 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# ---------------------------------------------------------------------------
 # Constants
-# ---------------------------------------------------------------------------
+
 CHECKPOINT_PATH = os.path.join(os.path.dirname(__file__), "defect_model.pth")
 IMG_SIZE = 128
 DEFAULT_CLASSES = [
@@ -62,9 +56,7 @@ DISPLAY_NAMES = {
 }
 UNCERTAIN_THRESHOLD = 0.85
 
-# ---------------------------------------------------------------------------
 # Theme — blue, injected once via CSS
-# ---------------------------------------------------------------------------
 st.markdown(
     """
     <style>

@@ -103,9 +103,7 @@ with open('D:/Python and ML/Metal defects/classes.json', 'w') as f:
     json.dump(image.classes, f, indent=2)
 
 
-# ---------------------------------------------------------------------------
 # logging setup (kept from your original script, for local/manual testing)
-# ---------------------------------------------------------------------------
 LOG_FILE = 'D:/Python and ML/Metal defects/predictions_log.csv'
 if not os.path.exists(LOG_FILE):
     with open(LOG_FILE, 'w', newline='') as f:
