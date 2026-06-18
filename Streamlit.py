@@ -182,9 +182,7 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# ---------------------------------------------------------------------------
 # Model definition (must match training script architecture)
-# ---------------------------------------------------------------------------
 class DefectModel(nn.Module):
     def __init__(self, num_classes):
         super(DefectModel, self).__init__()
@@ -250,17 +248,14 @@ def predict(img: Image.Image):
     return cls, confidence, status
 
 
-# ---------------------------------------------------------------------------
+
 # Session state for accumulated results (so the CSV can include every
 # image detected so far in this session, not just the latest batch)
-# ---------------------------------------------------------------------------
 if "results" not in st.session_state:
     st.session_state.results = []  # list of dicts
 
 
-# ---------------------------------------------------------------------------
 # Header
-# ---------------------------------------------------------------------------
 st.markdown(
     """
     <div class="app-header">
@@ -286,15 +281,11 @@ if DEMO_MODE:
         unsafe_allow_html=True,
     )
 
-# ---------------------------------------------------------------------------
 # Top-right download button placeholder — filled in after detection runs
-# ---------------------------------------------------------------------------
 top_left, top_right = st.columns([4, 1])
 download_slot = top_right.empty()
 
-# ---------------------------------------------------------------------------
 # Sidebar — settings
-# ---------------------------------------------------------------------------
 with st.sidebar:
     st.markdown("### Settings")
     threshold = st.slider(
@@ -314,9 +305,7 @@ with st.sidebar:
             st.session_state.results = []
             st.rerun()
 
-# ---------------------------------------------------------------------------
 # Upload section
-# ---------------------------------------------------------------------------
 st.markdown('<div class="section-title">Upload images</div>', unsafe_allow_html=True)
 st.markdown('<div class="blue-card">', unsafe_allow_html=True)
 
@@ -330,9 +319,7 @@ run_detection = st.button("Run detection", type="primary", disabled=not uploaded
 
 st.markdown("</div>", unsafe_allow_html=True)
 
-# ---------------------------------------------------------------------------
 # Run detection
-# ---------------------------------------------------------------------------
 if run_detection and uploaded_files:
     new_results = []
     with st.spinner(f"Analyzing {len(uploaded_files)} image(s)..."):
@@ -356,9 +343,7 @@ if run_detection and uploaded_files:
     st.session_state.results.extend(new_results)
     st.session_state.last_batch = new_results
 
-# ---------------------------------------------------------------------------
 # Show results for the most recent batch
-# ---------------------------------------------------------------------------
 if st.session_state.get("last_batch"):
     last_batch = st.session_state.last_batch
 
@@ -402,9 +387,8 @@ if st.session_state.get("last_batch"):
                         unsafe_allow_html=True,
                     )
 
-# ---------------------------------------------------------------------------
+
 # Top-right CSV download (renders once any results exist this session)
-# ---------------------------------------------------------------------------
 if st.session_state.results:
     df = pd.DataFrame(
         [
@@ -428,9 +412,7 @@ if st.session_state.results:
             help="Download a CSV log of every image detected this session",
         )
 
-# ---------------------------------------------------------------------------
 # Full session history table at the bottom
-# ---------------------------------------------------------------------------
 if st.session_state.results:
     st.markdown('<div class="section-title">Session history</div>', unsafe_allow_html=True)
     st.markdown('<div class="blue-card">', unsafe_allow_html=True)
