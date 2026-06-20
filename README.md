@@ -54,7 +54,7 @@ predict_image('path/to/image.jpg', model, dataset)
 **Run the web app:**
 ```bash
 pip install -r requirements.txt
-streamlit run app.py
+streamlit run (file path).py
 ```
 Place `defect_model.pth` in the same folder as `app.py` before launching, or the app will run in demo mode with placeholder predictions. If you add or retrain the checkpoint while the app is already running, restart the Streamlit server (not just the browser tab) to pick up the new weights.
 
