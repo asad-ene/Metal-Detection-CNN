@@ -42,6 +42,11 @@ NEU-DET/
         └── ...
 ```
 
+##Important Parameters:
+- **Transform size:** 128
+- **Final layer:** 512
+- **Epoch size:** 20
+
 ## Usage
 
 Saves the best checkpoint (by validation accuracy) to `defect_model.pth`, along with the class list used during training. Also writes `classes.json` as a human-readable reference.
@@ -65,6 +70,8 @@ The app supports single or batch image uploads, displays the predicted defect pr
 | Metric | Value |
 |--------|-------|
 | Validation Accuracy | ~90–93% |
+
+**Important note:** This isn't average accuracy of all epochs, its just last epoch accuracy. Average accuracy is between 90-95 percent.
 
 ## Notes
 
